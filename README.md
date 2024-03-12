@@ -15,7 +15,7 @@ where $I$ represents the intensity function, $t_0$ the time starting the measure
 
 <div align=center>
   <image src=/.github/line.png width=20%></image>
-  <image src=/.github/dws1.png width=20%></image>  
+  <image src=/.github/dws1.png width=40%></image>  
 </div>
 
 The picture (1) above (click to zoom) is a snip of a full resolution (200x10000) picture coming directly from the line camera. Each row of the image corresponds, in terms of the ACF described, to the intensity of the pixel in regards to $t_0$ (row) and to the correlation function at certain $t _{\mathtt{age}}$ (column). (2) Shows the intensities of the backscattered light, quite like the other picture but horizontally, a function of time in the same terms. $^{[3]}$
@@ -23,14 +23,15 @@ The picture (1) above (click to zoom) is a snip of a full resolution (200x10000)
 ### Plotting the ACF
 
 <div align=center>
-  <image src=/.github/plot.png width=20%></image>
+  <image src=/.github/plot.png width=30%></image>
 </div>
 
 The data we work with comes directly from a DWS experiment involving foams. Inside a MATLAB data file (here not provided) we have a variable called `g2_map` (51x508450) that contains all the correlation functions as columns. We check the behaviour of the sample by plotting its function of time (x-axis) and g(2) (y-axis) using the following command
 ```matlab
 semilogx(dt*lagtimes, g2_norm(:,100000),'r-')
 ```
-
+## The objective
+Can we determine or at least highlight, when do transient events happen? Is there a way to automate the detection of the transient peaks shown in the first two pictures?
 
 ---
 $[1]$ Dynamic Ligh Scattering, with applications to Chemistry, Biology, and Physics (Bruce J. Berne, Robert Pecora)</br>
