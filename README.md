@@ -1,3 +1,5 @@
+CIAO
+
 # Pattern recognition in DWS graphs
 <div align=center>
   <image src=/.github/g2_norm.png width=40%></image>
