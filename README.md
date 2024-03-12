@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-# Pattern matching/recognition in DWS to characterize bubbly emulsions
-<div align=center>
-    <image src=/.github/g2_norm.png width=30%></image>
-</div>
-=======
-# Pattern matching/recognition in DWS graphs
+# Pattern recognition in DWS graphs
 <div align=center>
   <image src=/.github/g2_norm.png width=40%></image>
   <image src=/.github/peak.png width=31%></image>  
@@ -23,4 +17,3 @@ where $I$ represents the intensity function of two factors, $t_0$ the time start
 ---
 $[1]$ Dynamic Ligh Scattering, with applications to Chemistry, Biology, and Physics (Bruce J. Berne, Robert Pecora)</br>
 $[2]$ Probability and random processes for electrical and computer engineers (Pg.392) (John A. Gubner)
->>>>>>> 0a3e11250d219a6a1b4833c5b1e990ae8ec73c23
