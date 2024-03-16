@@ -14,7 +14,7 @@ clear,clc,close all,hold off;
 subplot(1,2,1)
 plotPeaks('picture.tif',10);
 subplot(1,2,2)
-plotPeaks('picture.tif',20);
+plotPeaks('picture2.tif',10);
 
 function [] = plotPeaks(filename, blocks)
 
@@ -32,39 +32,24 @@ function [] = plotPeaks(filename, blocks)
         avg_change(i) = norm(change);
     end
 
-    hold on
-    plot(xvalues, avg_change,'b-');
-    title(["\textbf{Transient peaks from }",filename],'Interpreter','latex')
-    subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
-    xlabel('Row','Interpreter','latex')
-    ylabel('Column','Interpreter','latex')
-    grid on
-
-    arr_max(1) = max(V(i, :));
-    arr_max(1)
-
     V = imgaussfilt(V,3); % We reduce the noise by applying a Gaussian filter
 
-    V(1, :)
-    arr_max(1)
-    V(1, :) = single(V(1, :)) ./ single(arr_max(1));
-    V(1, :)
     for i = 1:Vsize(1) - blocks
         arr_max(i) = max(V(i, :));
         arr_max(i+blocks) = max(V(i+blocks, :));
 
-        V(i, :) = single(V(i, :)) ./ single(arr_max(i));
-        V(i+blocks, :) = single(V(i+blocks, :)) ./ single(arr_max(i+blocks));
-
         change = single(V(i + blocks,:)) - single(V(i,:));
-        avg_change(i) = norm(change);
+        avg_change(i) = norm(change / max(arr_max(1), arr_max(1+blocks)));
     end
 
+    hold on
     plot(xvalues, avg_change,'r-');
+    ylim([0 2]);
     title(["\textbf{Transient peaks from }",filename],'Interpreter','latex')
     subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
     xlabel('Row','Interpreter','latex')
     ylabel('Column','Interpreter','latex')
-    legend('Norm','Gaussian Filtered Norm')
+    legend('Gaussian Filtered Norm')
+    grid on
 
 end
