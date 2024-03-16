@@ -1,22 +1,11 @@
-%% SHOW "supposedly" WHERE A TRANSIENT PEAK IS
-
-% USAGE
-% Transient peaks are evident spikes in the plots. The spikes can be
-% further highlighted using a Gaussian filter (gamma=3). The function
-% 'plotPeaks' takes two arguments:
-% - 'filename'  The path of the .tif to be loaded.
-% - 'blocks'    The number of blocks to be used to compute the norm
+%% To plot functions of maximum factors of columns (200) over rows (10000)
 %
-% subplot separation is the only task assigned to the user.
-
-clear,clc,close all,hold off;
-
-subplot(1,2,1)
-plotPeaks('picture.tif',10);
-subplot(1,2,2)
-plotPeaks('picture2.tif',10);
-
-function [] = plotPeaks(filename, blocks)
+% This function is to be included in files such as 'linecamera.m'
+% to highlight transient peaks positions present in pictures taken by the line camera.
+%
+% 'filname'     The name of the picture to be displayed along the plot
+% 'blocks'      The number of blocks to be used when computing the norm
+function [] = p200_plotPeaks(filename, blocks)
 
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
 
@@ -45,11 +34,11 @@ function [] = plotPeaks(filename, blocks)
     hold on
     plot(xvalues, avg_change,'r-');
     ylim([0 2]);
-    title(["\textbf{Transient peaks from }",filename],'Interpreter','latex')
+    title(["\textbf{p200 Transient Peaks from }",filename],'Interpreter','latex')
     subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
     xlabel('Row','Interpreter','latex')
     ylabel('Column','Interpreter','latex')
-    legend('Gaussian Filtered Norm')
+    legend('p200 Gaussian Filtered Norm')
     grid on
 
 end
