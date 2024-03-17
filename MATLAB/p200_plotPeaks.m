@@ -10,8 +10,8 @@ function [] = p200_plotPeaks(filename, blocks)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
 
     Vsize = size(V);
-    xvalues = 0:Vsize(1) - 1;
-    avg_change(Vsize(1)) = 0;
+    xvalues = 0:Vsize(1) - blocks -1 ;
+    avg_change(Vsize(1) - blocks) = 0; % avg_change = [];
     arr_max(Vsize(1)) = 0;
 
     % We use the norm of blocks to reduce noise in the plot

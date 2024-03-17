@@ -5,32 +5,37 @@
 
 clear, clc, hold off, close all;
 
+Pic1 = 'PICS/Picture5.tif';
+Pic2 = 'PICS/Picture6.tif';
+Im1 = 'PICS/NA.png';
+Im2 = 'PICS/NA.png';
+
 %% DEFAULT
 figure('Name','Default')
 
 subplot(1,2,1)
-plotPeaks('PICS/Picture1.tif',10);
+plotPeaks(Pic1,10);
 subplot(1,2,2)
-plotPeaks('PICS/Picture2.tif',10);
-plotPics('PICS/NA.png',[.37 .59 .5 .3]);
-plotPics('PICS/NA.png',[-.069 .59 .5 .3]);
+plotPeaks(Pic2,10);
+% plotPics(Im1,[.37 .59 .5 .3]);
+% plotPics(Im2,[-.069 .59 .5 .3]);
 
 %% LN version
 figure('Name','LN version')
 
 subplot(1,2,1)
-ln_plotPeaks('PICS/Picture1.tif',10);
+ln_plotPeaks(Pic1,10);
 subplot(1,2,2)
-ln_plotPeaks('PICS/Picture2.tif',10);
-plotPics('PICS/NA.png',[.37 .59 .5 .3]);
-plotPics('PICS/NA.png',[-.069 .59 .5 .3]);
+ln_plotPeaks(Pic2,10);
+% plotPics(Im1,[.37 .59 .5 .3]);
+% plotPics(Im2,[-.069 .59 .5 .3]);
 
 %% p200 version
 figure('Name','p200 version')
 
 subplot(1,2,1)
-p200_plotPeaks('PICS/Picture1.tif',10);
+p200_plotPeaks(Pic1,10);
 subplot(1,2,2)
-p200_plotPeaks('PICS/Picture2.tif',10);
-plotPics('PICS/NA.png',[.37 .59 .5 .3]);
-plotPics('PICS/NA.png',[-.069 .59 .5 .3]);
+p200_plotPeaks(Pic2,10);
+% plotPics(Im1,[.37 .59 .5 .3]);
+% plotPics(Im2,[-.069 .59 .5 .3]);

@@ -10,14 +10,17 @@ function [] = plotPeaks (filename, blocks)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
 
     Vsize = size(V);
-    xvalues = 0:Vsize(1) - 1;
-    avg_change(Vsize(1)) = 0;
+    xvalues = 0:Vsize(1) - blocks -1 ;
+    avg_change(Vsize(1) - blocks) = 0; % avg_change = [];
 
     % We use the norm of blocks to reduce noise in the plot
     % otherwise nothing interesting would appear
     for i = 1:Vsize(1) - blocks
         change = single(V(i + blocks, :)) - single(V(i, :));
         avg_change(i) = norm(change);
+        % if i == Vsize(1) - blocks
+        %     fprintf('Ciaone');
+        % end
     end
 
     hold on
@@ -30,7 +33,7 @@ function [] = plotPeaks (filename, blocks)
 
     V = imgaussfilt(V,3); % We reduce the noise by applying a Gaussian filter
     for i = 1:Vsize(1) - blocks
-        change = single(V(i + blocks,:)) - single(V(i,:));
+        change = single(V(i + blocks, :)) - single(V(i, :));
         avg_change(i) = norm(change);
     end
 
