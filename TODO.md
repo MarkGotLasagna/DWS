@@ -4,6 +4,9 @@
 
 ## Questions to be answered
 - C'è un modo non distruttivo di __eliminare i picchi iniziali e finali__ sui grafici dovuti al calcolo della norma? Questi potrebbero essere falsi positivi verso la scoperta di eventi transienti.
+- [x] `plotPeaks.m`
+- [x] `p200_plotPeaks.m`
+- [] `ln_plotPeaks.m` ha il problema che il filtro a prescindere ritocca gli elementi margine dell'immagine. Quello che succede è che sia che all'inizio o alla fine, ci sono valori che spiccano esageratamente con il potenziale di attivare non volutamente eventuali meccanismi di rilevamento automatico di eventi transienti. C'è un modo di ovviare al problema?
 
 ## TODO
 
