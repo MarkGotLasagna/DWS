@@ -10,8 +10,8 @@ Pic2 = 'PICS/Picture6.tif';
 Im1 = 'PICS/NA.png';
 Im2 = 'PICS/NA.png';
 
-%% DEFAULT
-figure('Name','Default')
+%% Default version
+figure('Name','plotPeaks.m','NumberTitle','off')
 
 subplot(1,2,1)
 plotPeaks(Pic1,10);
@@ -20,8 +20,8 @@ plotPeaks(Pic2,10);
 % plotPics(Im1,[.37 .59 .5 .3]);
 % plotPics(Im2,[-.069 .59 .5 .3]);
 
-%% LN version
-figure('Name','LN version')
+%% Locally normalized version
+figure('Name','ln_plotPeaks.m','NumberTitle','off')
 
 subplot(1,2,1)
 ln_plotPeaks(Pic1,10);
@@ -31,7 +31,7 @@ ln_plotPeaks(Pic2,10);
 % plotPics(Im2,[-.069 .59 .5 .3]);
 
 %% p200 version
-figure('Name','p200 version')
+figure('Name','p200_plotPeaks.m','NumberTitle','off')
 
 subplot(1,2,1)
 p200_plotPeaks(Pic1,10);
@@ -39,3 +39,8 @@ subplot(1,2,2)
 p200_plotPeaks(Pic2,10);
 % plotPics(Im1,[.37 .59 .5 .3]);
 % plotPics(Im2,[-.069 .59 .5 .3]);
+
+%% TESTING GROUNDS
+figure('Name','TEST','NumberTitle','off')
+
+p300_plotPeaks(Pic1,7101:7600);

@@ -1,6 +1,6 @@
 %% To plot functions of maximum factors of columns (200) over rows (10000)
 %
-% This function is to be included in files such as 'linecamera.m'
+% This function is to be included in files such as 'main.m'
 % to highlight transient peaks positions present in pictures taken by the line camera.
 %
 % 'filname'     The name of the picture to be displayed along the plot

@@ -1,19 +1,20 @@
 %% To plot _local normalized_ functions of columns (200) over rows (10000)
 %
-% This function is to be included in files such as 'linecamera.m'
+% This function is to be included in files such as 'main.m'
 % to highlight transient peaks positions present in pictures taken by the line camera.
 
 % 'filname'     The name of the picture to be displayed along the plot
 % 'blocks'      The number of blocks to be used when computing the norm
 function [] = ln_plotPeaks (filename, blocks)
 
-    V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
+    V = tiffreadVolume(filename);
 
-    V = mat2gray(V);            % The picture has to pass through this filter twice
-                                % once before the local normalization and
-                                % once after the local normalization
-    V = localnormalize(V,4,4);
-    V = mat2gray(V);
+    V = mat2gray(V);    % (0-1)
+
+    V = localnormalize(V,4,4);  % Problematic: false positives beginning and end of plot
+                                % Here the picture will be black and white
+
+    V = mat2gray(V);    % (0-1)
 
     Vsize = size(V);
     xvalues = 0:Vsize(1) - blocks -1 ;
@@ -24,9 +25,6 @@ function [] = ln_plotPeaks (filename, blocks)
     for i = 1:Vsize(1) - blocks
         change = single(V(i + blocks, :)) - single(V(i, :));
         avg_change(i) = norm(change);
-        if i == Vsize(1) - blocks
-            fprintf('Ciaone');
-        end
     end
 
     hold on
