@@ -39,8 +39,3 @@ subplot(1,2,2)
 p200_plotPeaks(Pic2,10);
 % plotPics(Im1,[.37 .59 .5 .3]);
 % plotPics(Im2,[-.069 .59 .5 .3]);
-
-%% TESTING GROUNDS
-figure('Name','TEST','NumberTitle','off')
-
-p300_plotPeaks(Pic1,7101:7600);
