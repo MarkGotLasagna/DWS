@@ -43,4 +43,5 @@ p200_plotPeaks(Pic2,10);
 %% TESTING GROUNDS
 figure('Name','TEST','NumberTitle','off')
 
-p300_plotPeaks(Pic1,7101:7600);
+% p300_plotPeaks(Pic1,7101:7600, 20);
+p300_plotPeaks(Pic2,1:10000, 20);
