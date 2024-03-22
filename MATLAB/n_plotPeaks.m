@@ -73,10 +73,16 @@ function [] = normalize(filename, region, sigma)
     plot(avg_filtered_vector,'b-');
     xlabel('time');
     ylabel('change of motion');
+    title(["\textbf{Normalized Transient Peaks from }", filename],'Interpreter','latex')
+    subtitle(["Using blocks of size ", blocks], 'Interpreter','latex')
+    legend('normalized avg_change')
+    grid on
 
     subplot(1,2,1)
     imagesc(V_norm_smooth)
     xlabel('pixels');
     ylabel('time');
     colorbar;
+    title(["\textbf{Original image }", filename],'Interpreter','latex')
+    subtitle("Using default color scale", 'Interpreter','latex')
 end

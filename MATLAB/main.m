@@ -47,9 +47,9 @@ figure('Name','TEST','NumberTitle','off')
 p300_plotPeaks(Pic2,1:10000, 20);
 
 %% NORMALIZE
-figure('Name','normalize - Pic1','NumberTitle','off')
+figure('Name','Normalize','NumberTitle','off')
 % event in [7100:7600]
 normalize(Pic1,1:10000, 20);
 
-figure('Name','normalize - Pic2','NumberTitle','off')
+figure('Name','Normalize','NumberTitle','off')
 normalize(Pic2,1:10000, 20);
