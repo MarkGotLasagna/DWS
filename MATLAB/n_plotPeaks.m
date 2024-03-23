@@ -83,6 +83,7 @@ function [] = n_plotPeaks(filename, region, sigma)
     imagesc(V_norm_smooth)
     xlabel('pixels');
     ylabel('time');
+    colormap(gray);
     colorbar;
     title(["\textbf{Original image }", filename],'Interpreter','latex')
     subtitle("Using default color scale", 'Interpreter','latex')
