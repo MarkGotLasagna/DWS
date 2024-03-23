@@ -5,7 +5,7 @@
 %
 
 % 'region'      The region of the image to be cropped and plotted
-function [] = normalize(filename, region, sigma)
+function [] = n_plotPeaks(filename, region, sigma)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
     
     V_crop = V((region),:);
@@ -50,7 +50,7 @@ function [] = normalize(filename, region, sigma)
     % Perform Gaussian filtering on every vector along the first coordinate
     V_norm_smooth = conv2(V_norm, gaussian_kernel, 'same'); % 'valid'?
 
-    blocks = 10; % Try different values to see "avg_change" noise variation
+    blocks = 1; % Try different values to see "avg_change" noise variation
     s = size(V_norm_smooth);
     avg_change(s(1) - blocks) = 0; % avg_change = [];
 
@@ -71,6 +71,7 @@ function [] = normalize(filename, region, sigma)
 
     subplot(1,2,2)
     plot(avg_filtered_vector,'b-');
+    ylim([0 1]);
     xlabel('time');
     ylabel('change of motion');
     title(["\textbf{Normalized Transient Peaks from }", filename],'Interpreter','latex')
