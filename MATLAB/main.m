@@ -5,8 +5,12 @@
 
 clear, clc, hold off, close all;
 
-Pic1 = 'PICS/Picture5.tif';
-Pic2 = 'PICS/Picture6.tif';
+Pic1 = 'PICS/Picture1.tif';
+Pic2 = 'PICS/Picture2.tif';
+Pic3 = 'PICS/Picture3.tif';
+Pic4 = 'PICS/Picture4.tif';
+Pic5 = 'PICS/Picture5.tif';
+Pic6 = 'PICS/Picture6.tif';
 Im1 = 'PICS/NA.png';
 Im2 = 'PICS/NA.png';
 
@@ -45,3 +49,23 @@ figure('Name','TEST','NumberTitle','off')
 
 % p300_plotPeaks(Pic1,7101:7600, 20);
 p300_plotPeaks(Pic2,1:10000, 20);
+
+%% NORMALIZE
+figure('Name','Normalize','NumberTitle','off')
+% event in [7100:7600]
+n_plotPeaks(Pic1,1:10000, 20);
+
+figure('Name','Normalize','NumberTitle','off')
+n_plotPeaks(Pic2,1:10000, 20);
+
+figure('Name','Normalize','NumberTitle','off')
+n_plotPeaks(Pic3,1:10000, 20);
+
+figure('Name','Normalize','NumberTitle','off')
+n_plotPeaks(Pic4,1:10000, 20);
+
+figure('Name','Normalize','NumberTitle','off')
+n_plotPeaks(Pic5,1:10000, 20);
+
+figure('Name','Normalize','NumberTitle','off')
+n_plotPeaks(Pic6,1:10000, 20);
