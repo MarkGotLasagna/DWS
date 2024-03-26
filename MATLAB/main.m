@@ -35,8 +35,14 @@ figure('Name','p200_plot_peaks.m','NumberTitle','off')
 subplot(1,2,1)
 p200_plot_peaks(Pic1,10);
 subplot(1,2,2)
+<<<<<<< HEAD
 p200_plot_peaks(Pic2,10);
 
 %% NORMALIZE
 figure('Name','n_plot_peaks.m','NumberTitle','off')
 n_plot_peaks(Pic1,1:10000, 20);
+=======
+p200_plotPeaks(Pic2,10);
+% plotPics(Im1,[.37 .59 .5 .3]);
+% plotPics(Im2,[-.069 .59 .5 .3]);
+>>>>>>> main
