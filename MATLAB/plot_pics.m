@@ -10,7 +10,7 @@
 % Starting positions by default (whole figure)
 % [.37 .59 .5 .3]   (subplot(1,2,1))
 % [-.069 .59 .5 .3] (subplot(1,2,2))
-function [] = plotPics (filename, pos)
+function [] = plot_pics (filename, pos)
     axes('Position',pos);
     imshow(filename);
 end
