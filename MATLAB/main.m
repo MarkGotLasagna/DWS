@@ -1,71 +1,42 @@
 %% SHOW "supposedly" WHERE A TRANSIENT PEAK IS
 %
-% To execute all versions    'F5'
-% To execute single methods  'Ctrl+ENTER'
+% To execute all versions       'F5'
+% To execute single sections    'Ctrl+ENTER'
 
 clear, clc, hold off, close all;
 
-Pic1 = 'PICS/Picture1.tif';
-Pic2 = 'PICS/Picture2.tif';
-Pic3 = 'PICS/Picture3.tif';
-Pic4 = 'PICS/Picture4.tif';
-Pic5 = 'PICS/Picture5.tif';
-Pic6 = 'PICS/Picture6.tif';
-Im1 = 'PICS/NA.png';
-Im2 = 'PICS/NA.png';
+% The pictures to be loaded and processed using any of the methods provided
+Pic1 = 'PICS/Picture1.tif'; Pic2 = 'PICS/Picture2.tif'; Pic3 = 'PICS/Picture3.tif';
+Pic4 = 'PICS/Picture4.tif'; Pic5 = 'PICS/Picture5.tif'; Pic6 = 'PICS/Picture6.tif';
 
-%% Default version
-figure('Name','plotPeaks.m','NumberTitle','off')
+% The cropped pictures which purpose is to show where the transient peaks are
+% see function 'plot_pics.m' for more details and use cases
+Im1 = 'PICS/NA.png';    Im2 = 'PICS/NA.png';
 
-subplot(1,2,1)
-plotPeaks(Pic1,10);
-subplot(1,2,2)
-plotPeaks(Pic2,10);
-% plotPics(Im1,[.37 .59 .5 .3]);
-% plotPics(Im2,[-.069 .59 .5 .3]);
-
-%% Locally normalized version
-figure('Name','ln_plotPeaks.m','NumberTitle','off')
+%% DEFAULT
+figure('Name','plot_peaks.m','NumberTitle','off')
 
 subplot(1,2,1)
-ln_plotPeaks(Pic1,10);
+plot_peaks(Pic1,10);
 subplot(1,2,2)
-ln_plotPeaks(Pic2,10);
-% plotPics(Im1,[.37 .59 .5 .3]);
-% plotPics(Im2,[-.069 .59 .5 .3]);
+plot_peaks(Pic2,10);
 
-%% p200 version
-figure('Name','p200_plotPeaks.m','NumberTitle','off')
+%% LOCAL NORMALIZE
+figure('Name','ln_plot_peaks.m','NumberTitle','off')
 
 subplot(1,2,1)
-p200_plotPeaks(Pic1,10);
+ln_plot_peaks(Pic1,10);
 subplot(1,2,2)
-p200_plotPeaks(Pic2,10);
-% plotPics(Im1,[.37 .59 .5 .3]);
-% plotPics(Im2,[-.069 .59 .5 .3]);
+ln_plot_peaks(Pic2,10);
 
-%% TESTING GROUNDS
-figure('Name','TEST','NumberTitle','off')
+%% P200
+figure('Name','p200_plot_peaks.m','NumberTitle','off')
 
-% p300_plotPeaks(Pic1,7101:7600, 20);
-p300_plotPeaks(Pic2,1:10000, 20);
+subplot(1,2,1)
+p200_plot_peaks(Pic1,10);
+subplot(1,2,2)
+p200_plot_peaks(Pic2,10);
 
 %% NORMALIZE
-figure('Name','Normalize','NumberTitle','off')
-% event in [7100:7600]
-n_plotPeaks(Pic1,1:10000, 20);
-
-figure('Name','Normalize','NumberTitle','off')
-n_plotPeaks(Pic2,1:10000, 20);
-
-figure('Name','Normalize','NumberTitle','off')
-n_plotPeaks(Pic3,1:10000, 20);
-
-figure('Name','Normalize','NumberTitle','off')
-n_plotPeaks(Pic4,1:10000, 20);
-
-figure('Name','Normalize','NumberTitle','off')
-n_plotPeaks(Pic5,1:10000, 20);
-
-figure('Name','Normalize','NumberTitle','off')
-n_plotPeaks(Pic6,1:10000, 20);
+figure('Name','n_plot_peaks.m','NumberTitle','off')
+n_plot_peaks(Pic1,1:10000, 20);

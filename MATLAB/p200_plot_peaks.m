@@ -5,7 +5,7 @@
 %
 % 'filname'     The name of the picture to be displayed along the plot
 % 'blocks'      The number of blocks to be used when computing the norm
-function [] = p200_plotPeaks(filename, blocks)
+function [] = p200_plot_peaks(filename, blocks)
 
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
 

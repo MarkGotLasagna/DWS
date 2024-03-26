@@ -3,9 +3,10 @@
 % This function is to be included in files such as 'main.m'
 % to highlight transient peaks positions present in pictures taken by the line camera.
 %
-
+% 'filename'    The name of the tif to be loaded
 % 'region'      The region of the image to be cropped and plotted
-function [] = n_plotPeaks(filename, region, sigma)
+% 'sigma'       The sigma to be used when applying gaussian filtters
+function [] = n_plot_peaks(filename, region, sigma)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
     
     V_crop = V((region),:);
@@ -27,7 +28,7 @@ function [] = n_plotPeaks(filename, region, sigma)
     % x = (x - x_min) / (x_max - x_min);
 
     % Create the matrix with all columns equal to the given array
-    [num_rows, num_cols] = size(V_crop);
+    [~, num_cols] = size(V_crop);
     V_crop_prctile1 = V_crop_prctile1 * ones(num_cols, 1)';
     
     % Subtract 1st percentile (x_min)
@@ -72,19 +73,19 @@ function [] = n_plotPeaks(filename, region, sigma)
     subplot(1,2,2)
     plot(avg_filtered_vector,'b-');
     ylim([0 1]);
-    xlabel('time');
-    ylabel('change of motion');
+    xlabel('time (t)');
+    ylabel('Changes in motion');
     title(["\textbf{Normalized Transient Peaks from }", filename],'Interpreter','latex')
     subtitle(["Using blocks of size ", blocks], 'Interpreter','latex')
-    legend('normalized avg_change')
+    legend('Normalized avg\_change')
     grid on
 
     subplot(1,2,1)
     imagesc(V_norm_smooth)
-    xlabel('pixels');
-    ylabel('time');
+    xlabel('pixels (px)');
+    ylabel('time (t)');
     colormap(gray);
     colorbar;
-    title(["\textbf{Original image }", filename],'Interpreter','latex')
-    subtitle("Using default color scale", 'Interpreter','latex')
+    title(["\textbf{Processed }", filename],'Interpreter','latex')
+    % subtitle("Using gray colormap", 'Interpreter','latex') % UNNECESSARY
 end

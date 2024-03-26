@@ -1,11 +1,12 @@
-%% To plot functions of maximum factors of columns (200) over rows (10000)
+%% ( DEPRECATED )
+% To plot functions of maximum factors of columns (200) over rows (10000)
 %
 % This function is to be included in files such as 'main.m'
 % to highlight transient peaks positions present in pictures taken by the line camera.
 %
 
 % 'region'      The region of the image to be cropped and plotted
-function [] = p300_plotPeaks(filename, region, sigma)
+function [] = p300_plot_peaks(filename, region, sigma)
 
     % 7100 - 7600 (500)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable

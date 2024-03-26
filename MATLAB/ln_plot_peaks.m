@@ -5,7 +5,7 @@
 
 % 'filname'     The name of the picture to be displayed along the plot
 % 'blocks'      The number of blocks to be used when computing the norm
-function [] = ln_plotPeaks (filename, blocks)
+function [] = ln_plot_peaks (filename, blocks)
 
     V = tiffreadVolume(filename);
 
