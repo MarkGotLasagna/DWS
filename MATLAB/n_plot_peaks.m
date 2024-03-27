@@ -1,11 +1,5 @@
-%% To plot functions of maximum factors of columns (200) over rows (10000)
-%
-% This function is to be included in files such as 'main.m'
-% to highlight transient peaks positions present in pictures taken by the line camera.
-%
-% 'filename'    The name of the tif to be loaded
-% 'region'      The region of the image to be cropped and plotted
-% 'sigma'       The sigma to be used when applying gaussian filtters
+% N_PLOT_PEAKS  Plot locally normalized percentiles peaks
+%   TODO
 function [] = n_plot_peaks(filename, region, sigma)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
     

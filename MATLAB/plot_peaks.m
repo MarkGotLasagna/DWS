@@ -1,10 +1,16 @@
-%% To plot functions of columns (200) over rows (10000)
+% PLOT_PEAKS    Plot transient peaks.
+%   PLOT_PEAKS(filename, blocks) prints the norm of a change computed using
+%   blocks. Changing the blocks parameter doesn't necessarily help in highlighting transient
+%   peaks, it relies on user trial and error. filename is the name of the
+%   picture to be loaded which raw data (pixel intensities) is used to
+%   compute the norm. Two continuous curves will be plotted: the blue curve is the
+%   norm as is, while the red curve is the norm to which a gaussian filter
+%   is applied.
 %
-% This function is to be included in files such as 'main.m'
-% to highlight transient peaks positions present in pictures taken by the line camera.
-
-% 'filname'     The name of the picture to be displayed along the plot
-% 'blocks'      The number of blocks to be used when computing the norm
+%   Example
+%       plot_peaks('PICS/Picture1.tif',10);
+%
+%   See also TIFFREADVOLUME, NORM, IMGAUSSFILT
 function [] = plot_peaks (filename, blocks)
 
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable

@@ -1,10 +1,13 @@
-%% To plot functions of maximum factors of columns (200) over rows (10000)
+% P200_PLOT_PEAKS    Plot transient peaks using the max of the norm
+%   P200_PLOT_PEAKS(filename, blocks) prints the maximum of the norm
+%   computed for each row in the picture. Before doing so, a gaussian
+%   filter is applied to reduce noise.
+%   
+%   Example
+%       p200_plot_peaks('PICS/Picture1.tif',10);
 %
-% This function is to be included in files such as 'main.m'
-% to highlight transient peaks positions present in pictures taken by the line camera.
-%
-% 'filname'     The name of the picture to be displayed along the plot
-% 'blocks'      The number of blocks to be used when computing the norm
+%   See also TIFFREADVOLUME, IMGAUSSFILT, MAX, NORM, PLOT_PEAKS,
+%   LN_PLOT_PEAKS
 function [] = p200_plot_peaks(filename, blocks)
 
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
@@ -13,13 +16,6 @@ function [] = p200_plot_peaks(filename, blocks)
     xvalues = 0:Vsize(1) - blocks -1 ;
     avg_change(Vsize(1) - blocks) = 0; % avg_change = [];
     arr_max(Vsize(1)) = 0;
-
-    % We use the norm of blocks to reduce noise in the plot
-    % otherwise nothing interesting would appear
-    for i = 1:Vsize(1) - blocks
-        change = single(V(i + blocks, :)) - single(V(i, :));
-        avg_change(i) = norm(change);
-    end
 
     V = imgaussfilt(V,3); % We reduce the noise by applying a Gaussian filter
 
@@ -40,5 +36,4 @@ function [] = p200_plot_peaks(filename, blocks)
     ylabel('Column','Interpreter','latex')
     legend('p200 Gaussian Filtered Norm')
     grid on
-
 end

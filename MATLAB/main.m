@@ -40,4 +40,3 @@ p200_plot_peaks(Pic2,10);
 %% NORMALIZE
 figure('Name','n_plot_peaks.m','NumberTitle','off')
 n_plot_peaks(Pic1,1:10000, 20);
-

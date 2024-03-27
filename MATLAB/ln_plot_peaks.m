@@ -1,10 +1,15 @@
-%% To plot _local normalized_ functions of columns (200) over rows (10000)
+% LN_PLOT_PEAKS    Plot locally normalized transient peaks.
+%   LN_PLOT_PEAKS(filename, blocks) prints the norm of a locally normalized 
+%   change computed using blocks. Just like PLOT_PEAKS, this version plots
+%   two curves: the blue one represents the norm as is, while the red one has a
+%   gaussian filter applied to it. The difference between the two versions
+%   is the local normalization applied to the picture just before computing
+%   the norm.
 %
-% This function is to be included in files such as 'main.m'
-% to highlight transient peaks positions present in pictures taken by the line camera.
-
-% 'filname'     The name of the picture to be displayed along the plot
-% 'blocks'      The number of blocks to be used when computing the norm
+%   Example
+%       ln_plot_peaks('PICS/Picture1.tif',10);
+%
+%   See also TIFFREADVOLUME, IMGAUSSFILT, MAT2GRAY, NORM, PLOT_PEAKS
 function [] = ln_plot_peaks (filename, blocks)
 
     V = tiffreadVolume(filename);
