@@ -13,30 +13,20 @@ Pic4 = 'PICS/Picture4.tif'; Pic5 = 'PICS/Picture5.tif'; Pic6 = 'PICS/Picture6.ti
 % see function 'plot_pics.m' for more details and use cases
 Im1 = 'PICS/NA.png';    Im2 = 'PICS/NA.png';
 
-%% DEFAULT
-figure('Name','plot_peaks.m','NumberTitle','off')
+figure('Name',Pic1,'NumberTitle','off')
 
-subplot(1,2,1)
-plot_peaks(Pic1,10);
-subplot(1,2,2)
-plot_peaks(Pic2,10);
+%% DEFAULT
+subplot(2,2,1)
+plot_peaks(Pic1,'all',10);
 
 %% LOCAL NORMALIZE
-figure('Name','ln_plot_peaks.m','NumberTitle','off')
-
-subplot(1,2,1)
-ln_plot_peaks(Pic1,10);
-subplot(1,2,2)
-ln_plot_peaks(Pic2,10);
+subplot(2,2,2)
+ln_plot_peaks(Pic1,'all',10);
 
 %% P200
-figure('Name','p200_plot_peaks.m','NumberTitle','off')
-
-subplot(1,2,1)
-p200_plot_peaks(Pic1,10);
-subplot(1,2,2)
-p200_plot_peaks(Pic2,10);
+subplot(2,2,3)
+p200_plot_peaks(Pic1,'all',10);
 
 %% NORMALIZE
-figure('Name','n_plot_peaks.m','NumberTitle','off')
-n_plot_peaks(Pic1,1:10000, 20);
+subplot(2,2,4)
+n_plot_peaks(Pic1,'all', 20);

@@ -3,6 +3,10 @@
 function [] = n_plot_peaks(filename, region, sigma)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
     
+    if ischar(region) && region == "all"
+        region = 1:max(size(V));
+    end
+
     V_crop = V((region),:);
 
     % Typecast V_crop to double
@@ -64,17 +68,19 @@ function [] = n_plot_peaks(filename, region, sigma)
     % Convert the filtered matrix back to a vector
     avg_filtered_vector = avg_filtered_matrix(:)';
 
-    subplot(1,2,2)
+    t = mfilename + ".m";
+    st = "#blocks: " + blocks;
+
     plot(avg_filtered_vector,'b-');
     ylim([0 1]);
-    xlabel('time (t)');
-    ylabel('Changes in motion');
-    title(["\textbf{Normalized Transient Peaks from }", filename],'Interpreter','latex')
-    subtitle(["Using blocks of size ", blocks], 'Interpreter','latex')
+    xlabel('time (t)','Interpreter','latex');
+    ylabel('Motion changes','Interpreter','latex');
+    title(t,'Interpreter','none','VerticalAlignment','baseline')
+    subtitle(st, 'Interpreter','none')
     legend('Normalized avg\_change')
     grid on
 
-    subplot(1,2,1)
+    figure
     imagesc(V_norm_smooth)
     xlabel('pixels (px)');
     ylabel('time (t)');

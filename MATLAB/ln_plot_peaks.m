@@ -10,9 +10,15 @@
 %       ln_plot_peaks('PICS/Picture1.tif',10);
 %
 %   See also TIFFREADVOLUME, IMGAUSSFILT, MAT2GRAY, NORM, PLOT_PEAKS
-function [] = ln_plot_peaks (filename, blocks)
+function [] = ln_plot_peaks (filename, region, blocks)
 
     V = tiffreadVolume(filename);
+
+    if ischar(region) && region == "all"
+        region = 1:max(size(V));
+    end
+
+    V = V((region),:);
 
     V = mat2gray(V);    % (0-1)
 
@@ -21,36 +27,37 @@ function [] = ln_plot_peaks (filename, blocks)
 
     V = mat2gray(V);    % (0-1)
 
-    Vsize = size(V);
-    xvalues = 0:Vsize(1) - blocks -1 ;
-    avg_change(Vsize(1) - blocks) = 0; % avg_change = [];
-
     % We use the norm of blocks to reduce noise in the plot
     % otherwise nothing interesting would appear
-    for i = 1:Vsize(1) - blocks
-        change = single(V(i + blocks, :)) - single(V(i, :));
-        avg_change(i) = norm(change);
-    end
+    change = single(V(blocks + 1:end, :)) - single(V(1:end - blocks, :));
+    avg_change = sqrt(sum(change.^2, 2));
+
+    % for i = 1:Vsize(1) - blocks
+    %     change = single(V(i + blocks, :)) - single(V(i, :));
+    %     avg_change(i) = norm(change);
+    % end
 
     hold on
-    plot(xvalues, avg_change,'b-');
+    plot(avg_change,'b-');
     grid on
     title(["\textbf{LN Transient Peaks from }",filename],'Interpreter','latex')
     subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
-    xlabel('Row','Interpreter','latex')
-    ylabel('Column','Interpreter','latex')
+    xlabel('time (t)','Interpreter','latex')
+    ylabel('Motion changes','Interpreter','latex')
 
     V = imgaussfilt(V,1); % We reduce the noise by applying a Gaussian filter
-    for i = 1:Vsize(1) - blocks
-        change = single(V(i + blocks, :)) - single(V(i, :));
-        avg_change(i) = norm(change);
-    end
+    
+    change = single(V(blocks + 1:end, :)) - single(V(1:end - blocks, :));
+    avg_change = sqrt(sum(change.^2, 2));
 
-    plot(xvalues, avg_change,'r-');
-    title(["\textbf{LN Transient Peaks from }",filename],'Interpreter','latex')
-    subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
-    xlabel('Row','Interpreter','latex')
-    ylabel('Column','Interpreter','latex')
+    t = mfilename + ".m";
+    st = "#blocks: " + blocks;
+
+    plot(avg_change,'r-');
+    title(t,'Interpreter','none','VerticalAlignment','baseline')
+    subtitle(st,'Interpreter','none')
+    xlabel('time (t)','Interpreter','latex')
+    ylabel('Motion changes','Interpreter','latex')
     legend('LN Norm','LN Gaussian Filtered Norm')
 end
 

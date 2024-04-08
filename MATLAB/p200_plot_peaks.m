@@ -8,12 +8,17 @@
 %
 %   See also TIFFREADVOLUME, IMGAUSSFILT, MAX, NORM, PLOT_PEAKS,
 %   LN_PLOT_PEAKS
-function [] = p200_plot_peaks(filename, blocks)
+function [] = p200_plot_peaks(filename, region, blocks)
 
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
 
+    if ischar(region) && region == "all"
+        region = 1:max(size(V));
+    end
+
+    V = V((region),:);
+
     Vsize = size(V);
-    xvalues = 0:Vsize(1) - blocks -1 ;
     avg_change(Vsize(1) - blocks) = 0; % avg_change = [];
     arr_max(Vsize(1)) = 0;
 
@@ -27,13 +32,15 @@ function [] = p200_plot_peaks(filename, blocks)
         avg_change(i) = norm(change / max(arr_max(1), arr_max(1+blocks)));
     end
 
-    hold on
-    plot(xvalues, avg_change,'r-');
+    t = mfilename + ".m";
+    st = "#blocks: " + blocks;
+    
+    plot(avg_change,'r-');
     ylim([0 2]);
-    title(["\textbf{p200 Transient Peaks from }",filename],'Interpreter','latex')
-    subtitle(["Using blocks of size ",blocks],'Interpreter','latex')
-    xlabel('Row','Interpreter','latex')
-    ylabel('Column','Interpreter','latex')
+    title(t,'Interpreter','none','VerticalAlignment','baseline')
+    subtitle(st,'Interpreter','none')
+    xlabel('time (t)','Interpreter','latex')
+    ylabel('Motion changes','Interpreter','latex')
     legend('p200 Gaussian Filtered Norm')
     grid on
 end
