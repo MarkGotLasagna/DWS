@@ -1,14 +1,14 @@
 # TODO.md (ITA)
 
 ## Topics to discuss
-- Il grande miglioramento di `n_plot_peaks.m` rispetto le altre versioni è la riduzione considerevole del rumore e l'attestazione dei vaori su di una solgia controllata. Il difetto è che i picchi non sono molto evidenti, per la maggioranza dei casi. La riduzione del rumore fa sì che il fitting della curva sui dati del grafico sia ben formata e comunque riduce le interferenze.
+- Il grande miglioramento di `n_plot_peaks.m` rispetto le altre versioni è la riduzione considerevole del rumore e l'attestazione dei vaori su di una soglia controllata. Il difetto è che i picchi non sono molto evidenti, per la maggioranza dei casi. La riduzione del rumore fa sì che il fitting della curva sui dati del grafico sia ben formata e comunque riduce le interferenze. Quello di cui si dovrà parlare sarà il comportamento da osservare ovvero che tipo di comportamento la curva deve avere per poter esprimere il maggior numero d'informazioni.
 
 ## Questions to be answered
 - C'è un modo non distruttivo di __eliminare i picchi iniziali e finali__ sui grafici dovuti al calcolo della norma? Questi potrebbero essere falsi positivi verso la scoperta di eventi transienti.
     - [x] `plotPeaks.m`
     - [x] `p200_plotPeaks.m`
     - [ ] `ln_plotPeaks.m` ha il problema che il filtro a prescindere ritocca gli elementi margine dell'immagine. Quello che succede è che sia che all'inizio o alla fine, ci sono valori che spiccano esageratamente con il potenziale di attivare non volutamente eventuali meccanismi di rilevamento automatico di eventi transienti. C'è un modo di ovviare al problema?
-- Le __questioni viste fino adesso__ possono essere materia di discussione nella testi? Possono essere materiale di esposizione in laurea? __Sono utili?__
+- <s>Le __questioni viste fino adesso__ possono essere materia di discussione nella testi? Possono essere materiale di esposizione in laurea? __Sono utili?__</s>
 
 - <s>Quale è l'__asse temporale di una singola `.tif`__? Stampare sulle ascisse il tempo sarebbe più comodo piuttosto che stampare la colonna dove avviene l'evento.</s>
 
