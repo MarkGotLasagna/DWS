@@ -15,11 +15,11 @@ function [] = n_plot_peaks(filename, region, sigma)
     % Too much noise
     % V_crop_max = max(V_crop,[],2)'; 
 
-    V_crop_prctile = prctile(V_crop',99)';
-    V_crop_prctile1 = prctile(V_crop',1)';
+    V_crop_99 = prctile(V_crop',99)';
+    V_crop_1 = prctile(V_crop',1)';
 
-    V_crop_prctile = imgaussfilt(V_crop_prctile,sigma);
-    V_crop_prctile1 = imgaussfilt(V_crop_prctile1,sigma);
+    V_crop_99 = imgaussfilt(V_crop_99,sigma);
+    V_crop_1 = imgaussfilt(V_crop_1,sigma);
 
 
     %%LOCAL NORMALIZING PROCESS: 
@@ -27,14 +27,14 @@ function [] = n_plot_peaks(filename, region, sigma)
 
     % Create the matrix with all columns equal to the given array
     [~, num_cols] = size(V_crop);
-    V_crop_prctile1 = V_crop_prctile1 * ones(num_cols, 1)';
+    V_crop_1 = V_crop_1 * ones(num_cols, 1)';
     
     % Subtract 1st percentile (x_min)
-    V_norm = V_crop - V_crop_prctile1;
+    V_norm = V_crop - V_crop_1;
     
     % Divide by the difference between
     % 99th percentile and 1st percentile (x_max - x_min)
-    V_norm = V_norm ./ (V_crop_prctile - V_crop_prctile1);
+    V_norm = V_norm ./ (V_crop_99 - V_crop_1);
 
 
     %%SMOOTHING PROCESS:

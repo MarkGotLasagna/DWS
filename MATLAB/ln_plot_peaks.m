@@ -10,6 +10,9 @@
 %       ln_plot_peaks('PICS/Picture1.tif',10);
 %
 %   See also TIFFREADVOLUME, IMGAUSSFILT, MAT2GRAY, NORM, PLOT_PEAKS
+
+%% PROVARE CON NORMA L2
+
 function [] = ln_plot_peaks (filename, region, blocks)
 
     V = tiffreadVolume(filename);
