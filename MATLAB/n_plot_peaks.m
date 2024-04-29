@@ -1,6 +1,5 @@
 % N_PLOT_PEAKS  Plot locally normalized percentiles peaks
-%   TODO
-function [] = n_plot_peaks(filename, region, sigma)
+function [] = n_plot_peaks(filename, region, image_sigma, column_sigma)
     V = tiffreadVolume(filename); % It is advised to put .tif in the same folder as the executable
     
     if ischar(region) && region == "all"
@@ -18,8 +17,8 @@ function [] = n_plot_peaks(filename, region, sigma)
     V_crop_99 = prctile(V_crop',99)';
     V_crop_1 = prctile(V_crop',1)';
 
-    V_crop_99 = imgaussfilt(V_crop_99,sigma);
-    V_crop_1 = imgaussfilt(V_crop_1,sigma);
+    V_crop_99 = imgaussfilt(V_crop_99,image_sigma);
+    V_crop_1 = imgaussfilt(V_crop_1,image_sigma);
 
 
     %%LOCAL NORMALIZING PROCESS: 
@@ -42,14 +41,13 @@ function [] = n_plot_peaks(filename, region, sigma)
     % median smoothing on average change (to mantain motion shapes)
 
     % Generate 1D Gaussian kernel
-    sigma = 1;
-    kernel_size = ceil(3 * sigma) * 2 + 1; % Choose kernel size based on sigma
-    gaussian_kernel = fspecial('gaussian', [kernel_size, 1], sigma);
+    kernel_size = ceil(3 * column_sigma) * 2 + 1; % Choose kernel size based on column sigma
+    gaussian_kernel = fspecial('gaussian', [kernel_size, 1], column_sigma);
     
     % Perform Gaussian filtering on every vector along the first coordinate
     V_norm_smooth = conv2(V_norm, gaussian_kernel, 'same'); % 'valid'?
 
-    blocks = 1; % Try different values to see "avg_change" noise variation
+    blocks = 1;
     s = size(V_norm_smooth);
     avg_change(s(1) - blocks) = 0; % avg_change = [];
 
@@ -59,6 +57,7 @@ function [] = n_plot_peaks(filename, region, sigma)
         avg_change(i) = norm(change);
     end
 
+    % ???
     % Window size for the median filter
     window_size = 21; % Adjust as needed
     
@@ -69,23 +68,24 @@ function [] = n_plot_peaks(filename, region, sigma)
     avg_filtered_vector = avg_filtered_matrix(:)';
 
     t = mfilename + ".m";
-    st = "#blocks: " + blocks;
-
-    plot(avg_filtered_vector,'b-');
-    ylim([0 1]);
-    xlabel('time (t)','Interpreter','latex');
-    ylabel('Motion changes','Interpreter','latex');
-    title(t,'Interpreter','none','VerticalAlignment','baseline')
-    subtitle(st, 'Interpreter','none')
-    legend('Normalized avg\_change')
-    grid on
-
-    figure
-    imagesc(V_norm_smooth)
+    st = "#blocks: " + blocks + ", #col_sigma: " + column_sigma;
+    
+    figure('units','normalized','outerposition',[0 0 1 1])
+    subplot(1, 2, 1);
+    imagesc(V_norm_smooth);
     xlabel('pixels (px)');
     ylabel('time (t)');
     colormap(gray);
     colorbar;
-    title(["\textbf{Processed }", filename],'Interpreter','latex')
-    % subtitle("Using gray colormap", 'Interpreter','latex') % UNNECESSARY
+    title(["\textbf{Processed }", filename],'Interpreter','latex');
+
+    subplot(1, 2, 2);
+    plot(avg_filtered_vector,'b-');
+    ylim([0 1]);
+    xlabel('time (t)','Interpreter','latex');
+    ylabel('Motion changes','Interpreter','latex');
+    title(t,'Interpreter','none','VerticalAlignment','baseline');
+    subtitle(st, 'Interpreter','none');
+    legend('Normalized avg\_change');
+    grid on;
 end
