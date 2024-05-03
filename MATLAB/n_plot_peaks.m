@@ -20,7 +20,6 @@ function [] = n_plot_peaks(filename, region, image_sigma, column_sigma)
     V_crop_99 = imgaussfilt(V_crop_99,image_sigma);
     V_crop_1 = imgaussfilt(V_crop_1,image_sigma);
 
-
     %%LOCAL NORMALIZING PROCESS: 
     % x = (x - x_min) / (x_max - x_min);
 
@@ -34,7 +33,6 @@ function [] = n_plot_peaks(filename, region, image_sigma, column_sigma)
     % Divide by the difference between
     % 99th percentile and 1st percentile (x_max - x_min)
     V_norm = V_norm ./ (V_crop_99 - V_crop_1);
-
 
     %%SMOOTHING PROCESS:
     % Gaussian smoothing on every columns +
@@ -71,7 +69,7 @@ function [] = n_plot_peaks(filename, region, image_sigma, column_sigma)
     st = "#blocks: " + blocks + ", #col_sigma: " + column_sigma;
     
     figure('units','normalized','outerposition',[0 0 1 1])
-    subplot(1, 2, 1);
+    subplot(2, 2, [1 3]);
     imagesc(V_norm_smooth);
     xlabel('pixels (px)');
     ylabel('time (t)');
@@ -79,12 +77,22 @@ function [] = n_plot_peaks(filename, region, image_sigma, column_sigma)
     colorbar;
     title(["\textbf{Processed }", filename],'Interpreter','latex');
 
-    subplot(1, 2, 2);
+    subplot(2, 2, 2)
+    hold on
+    plot(V_crop_99, 'r-');
+    plot(V_crop_1, 'b-');
+    xlabel('time (t)','Interpreter','latex');
+    ylabel('Extreme values','Interpreter','latex');
+    title(t,'Interpreter','none','VerticalAlignment','baseline');
+    legend('99prc', '1prc');
+    grid on;
+    hold off;
+
+    subplot(2, 2, 4);
     plot(avg_filtered_vector,'b-');
     ylim([0 1]);
     xlabel('time (t)','Interpreter','latex');
     ylabel('Motion changes','Interpreter','latex');
-    title(t,'Interpreter','none','VerticalAlignment','baseline');
     subtitle(st, 'Interpreter','none');
     legend('Normalized avg\_change');
     grid on;
