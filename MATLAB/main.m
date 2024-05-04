@@ -1,7 +1,7 @@
 %% SHOW "supposedly" WHERE A TRANSIENT PEAK IS
-%
-% To execute all versions       'F5'
-% To execute single sections    'Ctrl+ENTER'
+
+addpath("utils\");
+%addpath("utils\correlations\");
 
 clear, clc, close all;
 
@@ -11,13 +11,9 @@ pics = ["PICS/Picture1.tif" "PICS/Picture2.tif" "PICS/Picture3.tif" ...
 
 Im1 = 'PICS/NA.png'; 
 
-% Dalpa method
-image_sigma = 100; % high values
+row_sigma = 100; % high values to reduce noise
+col_sigma = 5; 
 
-% for i = [1, 2, 3, 4, 5, 10, 15, 20]
-%     n_plot_peaks(pic,'all', image_sigma, i); 
-% end
-
-n_plot_peaks(pics(1), 'all', image_sigma, 5);
-
-plot_peaks(pics(1), 'all', 1);
+for i = 1:length(pics)
+    norm_plot_peaks(pics(i), 'all', row_sigma, col_sigma);
+end
