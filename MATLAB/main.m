@@ -14,6 +14,4 @@ Im1 = 'PICS/NA.png';
 row_sigma = 100; % high values to reduce noise
 col_sigma = 5; 
 
-for i = 1:length(pics)
-    kendall_plot_peaks(pics(i), 'all', row_sigma, col_sigma);
-end
+norm_plot_peaks(pics(1), 'all', row_sigma, col_sigma);

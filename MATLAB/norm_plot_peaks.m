@@ -12,9 +12,9 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
     v_crop_75 = imgaussfilt(prctile(V_crop, 75, 2), row_sigma);
     v_crop_50 = imgaussfilt(prctile(V_crop, 50, 2), row_sigma);
     v_crop_25 = imgaussfilt(prctile(V_crop, 25, 2), row_sigma);
-    v_crop_1 = imgaussfilt(prctile(V_crop, 1, 2), row_sigma);
+    v_crop_01 = imgaussfilt(prctile(V_crop, 1, 2), row_sigma);
 
-    V_norm = local_normalize(V_crop, v_crop_1, v_crop_99);
+    V_norm = local_normalize(V_crop, v_crop_01, v_crop_99);
 
     V_norm_smooth = column_smooth(V_norm, column_sigma);
 
@@ -22,8 +22,7 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
     correlations = norm_correlation(V_norm_smooth, interval);
     
     window_size = 21; % Adjust as needed
-    correlations_matrix = medfilt2(correlations, [1, window_size]);
-    correlations_vector = correlations_matrix(:)';
+    correlations_vector = medfilt2(correlations, [1, window_size]);
 
     % PLOTS SECTION 
     t = mfilename + ".m";
@@ -46,7 +45,7 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
     plot(v_crop_75, 'r--');
     plot(v_crop_50, 'g--');
     plot(v_crop_25, 'b--');
-    plot(v_crop_1, 'b-');
+    plot(v_crop_01, 'b-');
     xlabel('time (t)','Interpreter','latex');
     ylabel('Extreme values','Interpreter','latex');
     title(t,'Interpreter','none','VerticalAlignment','baseline');

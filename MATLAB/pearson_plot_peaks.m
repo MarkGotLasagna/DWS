@@ -9,9 +9,9 @@ function [] = pearson_plot_peaks(filename, region, row_sigma, column_sigma)
     
     V_crop = double(V((region),:)); % Typecast V_crop to double
     v_crop_99 = imgaussfilt(prctile(V_crop, 99, 2), row_sigma);
-    v_crop_1 = imgaussfilt(prctile(V_crop, 1, 2), row_sigma);
+    v_crop_01 = imgaussfilt(prctile(V_crop, 1, 2), row_sigma);
 
-    V_norm = local_normalize(V_crop, v_crop_1, v_crop_99);
+    V_norm = local_normalize(V_crop, v_crop_01, v_crop_99);
 
     V_norm_smooth = column_smooth(V_norm, column_sigma);
 
@@ -34,7 +34,7 @@ function [] = pearson_plot_peaks(filename, region, row_sigma, column_sigma)
     subplot(2, 2, 2)
     hold on
     plot(v_crop_99, 'r-');
-    plot(v_crop_1, 'b-');
+    plot(v_crop_01, 'b-');
     xlabel('time (t)','Interpreter','latex');
     ylabel('Extreme values','Interpreter','latex');
     title(t,'Interpreter','none','VerticalAlignment','baseline');
