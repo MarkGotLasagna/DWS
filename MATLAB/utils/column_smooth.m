@@ -1,6 +1,7 @@
 function V_smooth = column_smooth(V, sigma)
 % COLUMN_SMOOTH  Applies gaussian smoothing on each column to reduce
 % noise and makes edge detection much easier.
+%
 % V_smooth = column_smooth(V, sigma);
 %
 %   See also LOCAL_NORMALIZE.

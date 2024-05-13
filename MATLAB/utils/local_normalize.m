@@ -1,6 +1,8 @@
 function V_norm = local_normalize(V, v01, v99)
 % LOCAL_NORMALIZE  Normalizes data in V using v01 and v99 as min value and
 % max value: x = (x - x_min) / (x_max - x_min);
+% Version R2024a needed.
+%
 % V_norm = local_normalize(V, v01, v99);
 %
 %   See also COLUMN_SMOOTH.
