@@ -11,5 +11,5 @@ function V_smooth = column_smooth(V, sigma)
     gaussian_kernel = fspecial('gaussian', [kernel_size, 1], sigma);
     
     % Perform Gaussian filtering on every vector along the first coordinate
-    V_smooth = conv2(V, gaussian_kernel, 'valid'); 
+    V_smooth = conv2(V, gaussian_kernel, 'same'); 
 end
