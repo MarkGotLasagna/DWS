@@ -11,7 +11,10 @@ pics = ["PICS/Picture1.tif" "PICS/Picture2.tif" "PICS/Picture3.tif" ...
 
 Im1 = 'PICS/NA.png'; 
 
-row_sigma = 100; % high values to reduce noise
-col_sigma = 5; 
+row_sigma = 200; % high values to reduce noise
+col_sigma = 3;
 
-norm_plot_peaks(pics(1), 'all', row_sigma, col_sigma);
+coeff_plot_peaks(pics(4), 8250:1:8450, row_sigma, col_sigma, "Kendall");
+coeff_plot_peaks(pics(5), 7100:1:7300, row_sigma, col_sigma, "Kendall");
+
+% coeff_plot_peaks(pics(3), 'all', row_sigma, col_sigma, "Kendall");
