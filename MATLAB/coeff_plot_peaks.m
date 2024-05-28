@@ -14,22 +14,24 @@ function [] = coeff_plot_peaks(filename, region, row_sigma, column_sigma, coeff)
 
     V_norm = local_normalize(V_crop, v_crop_01, v_crop_99);
 
-    V_eq = histogram_equalization(V_norm);
+    % V_smooth = gaussian_smooth(V_norm, column_sigma);
+    % V_smooth = median_smooth(V_norm, column_sigma);
+    V_smooth = bilateral_smooth(V_norm, column_sigma);
 
-    % V_smooth = gaussian_smooth(V_eq, column_sigma);
-    % V_smooth = median_smooth(V_eq, column_sigma);
-    V_smooth = bilateral_smooth(V_eq, column_sigma);
+    bins = 5;
+    V_eq = histogram_equalization(V_smooth, bins);
 
     window_size = column_sigma*2+1; % time distance between rows
-    V_rmse = rmse_window(V_smooth, window_size);
+    % V_rmse = rmse_window(V_smooth, window_size);
 
-    correlations = coeff_correlation(V_rmse, coeff, window_size*2);
+    correlations = coeff_correlation(V_eq, coeff, window_size*2);
 
     % PLOTS SECTION 
     st = "#win_size: " + window_size + ", #col_sigma: " + column_sigma + ", #row_sigma: " + row_sigma;
     
     figure('units','normalized','outerposition',[0 0 1 1])
     
+    % UNCOMMENT TO SEE 1st AND 99th PERCENTILE 
     % subplot(2, 2, 2)
     % hold on
     % plot(v_crop_99, 'r-');
@@ -50,14 +52,6 @@ function [] = coeff_plot_peaks(filename, region, row_sigma, column_sigma, coeff)
     title(filename + " pre eq",'Interpreter','latex');
 
     subplot(1, 3, 2)
-    imagesc(V_eq);
-    xlabel('pixels (px)');
-    ylabel('time (t)');
-    colormap(gray);
-    colorbar;
-    title(filename + " post eq",'Interpreter','latex');
-
-    subplot(1, 3, 3)
     imagesc(V_smooth);
     xlabel('pixels (px)');
     ylabel('time (t)');
@@ -65,8 +59,16 @@ function [] = coeff_plot_peaks(filename, region, row_sigma, column_sigma, coeff)
     colorbar;
     title(filename + " post smooth (bilat), sigma=" + column_sigma,'Interpreter','latex');
 
+    subplot(1, 3, 3)
+    imagesc(V_eq);
+    xlabel('pixels (px)');
+    ylabel('time (t)');
+    colormap(gray);
+    colorbar;
+    title(filename + " post eq, " + bins + " bins",'Interpreter','latex');
+
     figure;
-    subplot(2, 1, 1);
+    % subplot(2, 1, 1);
     plot(correlations,'b-');
     xlabel('time (t)','Interpreter','latex');
     ylabel('Motion changes','Interpreter','latex');
@@ -75,31 +77,7 @@ function [] = coeff_plot_peaks(filename, region, row_sigma, column_sigma, coeff)
     legend(coeff + " coefficient");
     grid on;
 
-    subplot(2, 1, 2);
-    hold on;
-    plot(V_rmse(:, 1),'b-');
-    plot(V_rmse(:, 2),'g-');
-    plot(V_rmse(:, 3),'r-');
-    plot(V_rmse(:, 4),'k-');
-    plot(V_rmse(:, 5),'b--');
-    plot(V_rmse(:, 6),'g--');
-    plot(V_rmse(:, 7),'r--');
-    plot(V_rmse(:, 8),'k--');
-    plot(V_rmse(:, 9),'b:');
-    plot(V_rmse(:, 10),'g:');
-    % plot(V_rmse(:, 11),'r:');
-    % plot(V_rmse(:, 12),'k:');
-    % plot(V_rmse(:, 13),'b--');
-    % plot(V_rmse(:, 14),'g--');
-    % plot(V_rmse(:, 15),'r--');
-    % plot(V_rmse(:, 16),'k--');
-    xlabel('time (t)','Interpreter','latex');
-    ylabel('windows rmse','Interpreter','latex');
-    title(filename);
-    subtitle("#timesteps=" + region(1) + "-" + region(size(region, 2)), 'Interpreter','none');
-    legend("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
-    grid on;
-
+    % UNCOMMENT TO SEE PIXELS INTENSITY CHANGE IN TIME
     % subplot(2, 1, 2);
     % hold on;
     % plot(V_eq(:, 1),'b-');
@@ -119,7 +97,7 @@ function [] = coeff_plot_peaks(filename, region, row_sigma, column_sigma, coeff)
     % % plot(V_eq(:, 15),'r--');
     % % plot(V_eq(:, 16),'k--');
     % xlabel('time (t)','Interpreter','latex');
-    % ylabel('pixels intensities','Interpreter','latex');
+    % ylabel('pixels intensity','Interpreter','latex');
     % title(filename);
     % subtitle("#timesteps=" + region(1) + "-" + region(size(region, 2)), 'Interpreter','none');
     % legend("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
