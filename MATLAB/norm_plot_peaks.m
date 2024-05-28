@@ -16,10 +16,12 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
 
     V_norm = local_normalize(V_crop, v_crop_01, v_crop_99);
 
-    V_norm_smooth = column_smooth(V_norm, column_sigma);
+    % V_eq = histogram_equalization(V_norm);
+
+    V_smooth = column_smooth(V_norm, column_sigma);
 
     interval = 1; % time distance between rows
-    correlations = norm_correlation(V_norm_smooth, interval);
+    correlations = norm_correlation(V_smooth, interval);
     
     window_size = 21; % Adjust as needed
     correlations_vector = medfilt2(correlations, [1, window_size]);
@@ -31,7 +33,7 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
     % image
     figure('units','normalized','outerposition',[0 0 1 1])
     subplot(2, 2, [1 3]);
-    imagesc(V_norm_smooth);
+    imagesc(V_smooth);
     xlabel('pixels (px)');
     ylabel('time (t)');
     colormap(gray);
@@ -55,7 +57,6 @@ function [] = norm_plot_peaks(filename, region, row_sigma, column_sigma)
     % peaks
     subplot(2, 2, 4);
     plot(correlations_vector,'b-');
-    ylim([0 1]);
     xlabel('time (t)','Interpreter','latex');
     ylabel('Motion changes','Interpreter','latex');
     subtitle(st, 'Interpreter','none');
