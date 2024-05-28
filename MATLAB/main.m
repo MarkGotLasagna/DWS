@@ -1,4 +1,4 @@
-%% SHOW "supposedly" WHERE A TRANSIENT PEAK IS
+%% SHOW WHERE A TRANSIENT PEAK IS
 
 addpath("utils\");
 addpath("utils\correlations\");
@@ -11,7 +11,10 @@ pics = ["PICS/Picture1.tif" "PICS/Picture2.tif" "PICS/Picture3.tif" ...
 
 Im1 = 'PICS/NA.png'; 
 
-row_sigma = 100; % high values to reduce noise
-col_sigma = 5; 
+row_sigma = 200; % high values to reduce noise
+col_sigma = 1;
 
-norm_plot_peaks(pics(1), 'all', row_sigma, col_sigma);
+coeff_plot_peaks(pics(4), 7500:1:9500, row_sigma, col_sigma, "Kendall");
+coeff_plot_peaks(pics(5), 5500:1:8500, row_sigma, col_sigma, "Kendall");
+
+% coeff_plot_peaks(pics(3), 'all', row_sigma, col_sigma, "Kendall");
