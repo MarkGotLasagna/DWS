@@ -1,10 +1,10 @@
-function V_smooth = bilateral_smooth(V, sigma)
 % BILATERAL_SMOOTH  Applies bilateral smoothing on each column to reduce
 % noise and makes edge detection much easier.
 %
 % V_smooth = bilateral_smooth(V, sigma);
 %
 %   See also LOCAL_NORMALIZE, GAUSSIAN_SMOOTH, MEDIAN_SMOOTH.
+function V_smooth = bilateral_smooth(V, sigma)
     V_smooth = V;
     for i=1:size(V, 2)
         intensity_sigma = 2*std(V(:, i))^2;
