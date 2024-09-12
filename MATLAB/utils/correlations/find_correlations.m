@@ -7,12 +7,19 @@ function [Corr, Img] = find_correlations(filename, region, row_sigma, column_sig
     if ischar(region) && region == "all"
         region = 1:max(size(V));
     end
-    
-    V_crop = double(V((region),:)); % Typecast V_crop to double
-    v_crop_99 = imgaussfilt(prctile(V_crop, 99, 2), row_sigma);
-    v_crop_01 = imgaussfilt(prctile(V_crop, 1, 2), row_sigma);
 
-    V_norm = local_normalize(V_crop, v_crop_01, v_crop_99);
+    V_crop = double(V((region),:)); % Typecast V_crop to double
+    perc_97 = prctile(V_crop, 97, 2);
+    v_crop_97 = perc_97;
+    perc_03 = prctile(V_crop, 3, 2);
+    v_crop_03 = perc_03;
+
+    %% filtering percentiles (only useful with norm or visual appearance)
+    % v_crop_97 = imgaussfilt(perc_97, row_sigma);
+    % v_crop_03 = imgaussfilt(perc_03, row_sigma);
+    %% end
+    
+    V_norm = local_normalize(V_crop, v_crop_03, v_crop_97);
 
     V_smooth = gaussian_smooth(V_norm, column_sigma);
     % V_smooth = median_smooth(V_norm, column_sigma);
@@ -21,88 +28,101 @@ function [Corr, Img] = find_correlations(filename, region, row_sigma, column_sig
     bins = 5;
     V_eq = histogram_equalization(V_smooth, bins);
 
-    window_size = column_sigma*2+1; % time distance between rows
-    % V_rmse = rmse_window(V_smooth, window_size);
+    %% image processing pipeline
+    figure
+    subplot(1, 4, 1)
+    imagesc(V);
+    xlabel('pixels (px)');
+    ylabel('time (t)');
+    colormap(gray);
+    colorbar;
+    title("original",'Interpreter','latex');
 
-    correlations = coeff_correlation(V_eq, coeff, window_size*2);
+    subplot(1, 4, 2)
+    imagesc(V_norm);
+    xlabel('pixels (px)');
+    ylabel('time (t)');
+    colormap(gray);
+    colorbar;
+    title("normalized",'Interpreter','latex');
 
-    % PLOTS SECTION 
-    % st = "#win_size: " + window_size + ", #col_sigma: " + column_sigma + ", #row_sigma: " + row_sigma;
+    subplot(1, 4, 3)
+    imagesc(V_smooth);
+    xlabel('pixels (px)');
+    ylabel('time (t)');
+    colormap(gray);
+    colorbar;
+    title("smooth",'Interpreter','latex');
+
+    subplot(1, 4, 4)
+    imagesc(V_eq);
+    xlabel('pixels (px)');
+    ylabel('time (t)');
+    colormap(gray);
+    colorbar;
+    title("equalized",'Interpreter','latex');
+
+    sgtitle("image processing pipeline");
+    %% end
+
+    window_size = column_sigma*4+1; % time distance between rows
+    correlations = coeff_correlation(V_eq, coeff, window_size);
+
+    st = "#win_size: " + window_size + ", #col_sigma: " + column_sigma + ", #row_sigma: " + row_sigma;
     
     % figure('units','normalized','outerposition',[0 0 1 1])
     
-    % UNCOMMENT TO SEE 1st AND 99th PERCENTILE 
-    % subplot(2, 2, 2)
+    %% 3rd and 97th percentile for each row
+    % figure
     % hold on
-    % plot(v_crop_99, 'r-');
-    % plot(v_crop_01, 'b-');
+    % plot(v_crop_97, 'r-', "LineWidth", 1);
+    % plot(v_crop_03, 'b-', "LineWidth", 1);
     % xlabel('time (t)','Interpreter','latex');
     % ylabel('Extreme values','Interpreter','latex');
-    % title(t,'Interpreter','none','VerticalAlignment','baseline');
-    % legend('99prc', '1prc');
+    % title('3rd and 97th percentile for each row','Interpreter','none','VerticalAlignment','baseline');
+    % legend('97prc', '3prc');
     % grid on;
-    % hold off;
+    %%
 
-    % subplot(1, 3, 1)
-    % imagesc(V_norm);
-    % xlabel('pixels (px)');
-    % ylabel('time (t)');
-    % colormap(gray);
-    % colorbar;
-    % title("pre eq",'Interpreter','latex');
+    %% equalization comparison (5 bins vs 64 bins)
+    % V_eq_64 = histogram_equalization(V_smooth, 64);
     % 
-    % subplot(1, 3, 2)
-    % imagesc(V_smooth);
-    % xlabel('pixels (px)');
-    % ylabel('time (t)');
-    % colormap(gray);
-    % colorbar;
-    % title("post smooth (bilat), sigma=" + column_sigma,'Interpreter','latex');
-
-    % % subplot(1, 3, 3)
-    % subplot(1, 2, 1);
+    % figure;
+    % subplot(1, 2, 2)
     % imagesc(V_eq);
     % xlabel('pixels (px)');
     % ylabel('time (t)');
     % colormap(gray);
     % colorbar;
-    % title("post eq, " + bins + " bins",'Interpreter','latex');
+    % title(filename + " eq 5 bins",'Interpreter','latex');
     % 
-    % % figure;
-    % subplot(1, 2, 2);
+    % subplot(1, 2, 1)
+    % imagesc(V_eq_64);
+    % xlabel('pixels (px)');
+    % ylabel('time (t)');
+    % colormap(gray);
+    % colorbar;
+    % title(filename + " eq 64 bins", 'Interpreter','latex');
+    % sgtitle("equalization comparison (5 bins vs 64 bins)");
+    %% end
+
+    %% correlation post eq comparison (5 vs 64 bins vs no eq)
+    % % V_eq_64 = histogram_equalization(V_smooth, 64);
+    % correlations_64 = coeff_correlation(V_eq_64, coeff, window_size);
+    % correlations_smooth = coeff_correlation(V_smooth, coeff, window_size);
+    % 
+    % figure;
     % plot(correlations,'b-');
+    % hold on;
+    % plot(correlations_64, 'r-');
+    % plot(correlations_smooth, 'g-');
     % xlabel('time (t)','Interpreter','latex');
     % ylabel('Motion changes','Interpreter','latex');
-    % title(filename, 'Interpreter', 'none');
+    % title("correlation post eq comparison (5 vs 64 bins vs no eq)");
     % subtitle(st, 'Interpreter','none');
-    % legend(coeff + " coefficient");
+    % legend("5bins", "64bins", "no eq");
     % grid on;
-
-    % UNCOMMENT TO SEE PIXELS INTENSITY CHANGE IN TIME
-    % subplot(2, 1, 2);
-    % hold on;
-    % plot(V_eq(:, 1),'b-');
-    % plot(V_eq(:, 2),'g-');
-    % plot(V_eq(:, 3),'r-');
-    % plot(V_eq(:, 4),'k-');
-    % plot(V_eq(:, 5),'b--');
-    % plot(V_eq(:, 6),'g--');
-    % plot(V_eq(:, 7),'r--');
-    % plot(V_eq(:, 8),'k--');
-    % plot(V_eq(:, 9),'b:');
-    % plot(V_eq(:, 10),'g:');
-    % % plot(V_eq(:, 11),'r:');
-    % % plot(V_eq(:, 12),'k:');
-    % % plot(V_eq(:, 13),'b--');
-    % % plot(V_eq(:, 14),'g--');
-    % % plot(V_eq(:, 15),'r--');
-    % % plot(V_eq(:, 16),'k--');
-    % xlabel('time (t)','Interpreter','latex');
-    % ylabel('pixels intensity','Interpreter','latex');
-    % title(filename);
-    % subtitle("#timesteps=" + region(1) + "-" + region(size(region, 2)), 'Interpreter','none');
-    % legend("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
-    % grid on;
+    %%
 
     Corr = correlations;
     Img = V_eq;
