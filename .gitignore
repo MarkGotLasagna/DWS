@@ -1,2 +1,4 @@
 # Ignore GIFs
 gifs/
+# Ignore all .asv files
+*.asv
